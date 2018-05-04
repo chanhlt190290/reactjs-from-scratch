@@ -28,12 +28,19 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, "public"),
-    port: 3000
+    port: 3000,
+    proxy:{
+      '/api/*': 'http://localhost:8080'
+    }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new CopyWebpackPlugin(
-      [{ from: "dist/*.*", to: "../public/", toType: "dir" }],
+      [
+        { from: "dist/*.*", to: "../public/", toType: "dir" },
+        { from: "dist/*.*", to: "../../src/main/resources/static/", toType: "dir" },
+        { from: "public/index.html", to: "../../src/main/resources/templates/index.html", toType: "file" }
+      ],
       {}
     )
   ]
